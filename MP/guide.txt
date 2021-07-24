@@ -1,0 +1,35 @@
+PROGRAM FLOW:
+
+[ASK FOR ANIMAL]
+---Next Player---
+[ASK FOR ANIMAL]
+
+The Player who picked Lion goes first!
+The player who picked Dog goes second!
+
+Player 1(Lion) [Choose your Color]
+Choices: Red or Blue
+
+Choice: Red
+  0   1   2   3   4   5   6   7   8
+-------------------------------------
+|Tir|   |Er |   |   |   |Mb |   |Lib|  0
+-------------------------------------
+|   |Cr |   |Riv|Riv|Riv|   |Db |   |  1
+-------------------------------------
+|Tr |   |Wr |Riv|Riv|Riv|Leb|   |Tb |  2
+-------------------------------------
+|ADr|Tr |   |   |   |   |   |Tb |ADb|  3            Driver: Board() - Board Constructor -then calls Terain() in loops
+-------------------------------------               After that, Board() calls Pieces() in loops
+|Tr |   |Ler|Riv|Riv|Riv|   |Wb |Tb |  4
+-------------------------------------
+|   |Dr |   |Riv|Riv|Riv|   |Cb |   |  5
+-------------------------------------
+|Lir|   |Mr |   |   |   |   |Eb |Tib|  6
+-------------------------------------
+
+
+Player 1(Red) [Choose an Animal to Move]:
+Choices {Tir, Er...}
+
+Choice: 
