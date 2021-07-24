@@ -1,3 +1,5 @@
+import java.nio.channels.ClosedSelectorException;
+
 /** The class repersents the board and initializes the board setting from terrain type and sides of the board(i.e. Red and Blue sides).
  * 
  * 	@author David Nikolai Grasparil
@@ -5,7 +7,7 @@
  *  @version 1.0
 */
 public class Board {
-    private Terrain[][] terrain;
+    private Terrain[] terrain;
     private Pieces[] player1;
     private Pieces[] player2;
     private boolean occupied;
@@ -19,14 +21,15 @@ public class Board {
         @param r Represents Red side
         @param b Represents Blue side 
 	*/
-    public Board(Terrain t, int p, String r, String b)
-    {
-        terrain[ROWS][COLUMNS] = t;
-        this.setBoard(r, b);
-    }
     public Board(String leftColor, String rightColor)
     {
-        setBoard(leftColor, rightColor);
+        terrain = new Terrain[63];
+        player1 = new Pieces[8];
+        player2 = new Pieces[8];
+        setLand();
+        setDen();
+        setRiver();
+        setPieces(leftColor, rightColor);
     }
 
     /** This method checks if the tile is occupied
@@ -67,19 +70,21 @@ public class Board {
 	*/
     public void setRiver()
     {
-        terrain[3][1] = new Terrain(5, 3, 1); //river
-        terrain[4][1] = new Terrain(5, 4, 1); //river
-        terrain[5][1] = new Terrain(5, 5, 1); //river
-        terrain[3][2] = new Terrain(5, 3, 2); //river
-        terrain[4][2] = new Terrain(5, 4, 2); //river
-        terrain[5][2] = new Terrain(5, 5, 2); //river
-
-        terrain[3][4] = new Terrain(5, 3, 4); //river
-        terrain[4][4] = new Terrain(5, 4, 4); //river
-        terrain[5][4] = new Terrain(5, 5, 4); //river
-        terrain[3][5] = new Terrain(5, 3, 5); //river
-        terrain[4][5] = new Terrain(5, 4, 5); //river
-        terrain[5][5] = new Terrain(5, 5, 5); //river
+        
+        int i,j,k;
+        for (i = 3 ; i < 6 ; i++)
+            for (j = 1 ; j < 6 ; j++)
+            {
+                k=0;
+                while(k < terrain.length && terrain[k] != null)
+                {
+                    if (terrain[k].getPosition()[0] == j && terrain[k].getPosition()[1] == i && terrain[k].getPosition()[0] != 3)
+                        terrain[k].setClassification(5);
+                    k++;
+                }
+            }
+               
+                    
     }
 
     /** This method initializes the board with dens
@@ -87,8 +92,25 @@ public class Board {
 	*/
     public void setDen()
     {
-        terrain[3][0] = new Terrain(1, 3, 0); // Left den
-        terrain[3][8] = new Terrain(2, 3, 8); // RIght den
+        int i=0;
+        while(i < terrain.length && terrain[i] != null)
+        {
+            if (terrain[i].getPosition()[0] == 3 && terrain[i].getPosition()[1] == 0)
+                terrain[i].setClassification(1);
+            else if (terrain[i].getPosition()[0] == 3 && terrain[i].getPosition()[1] == 8)
+                terrain[i].setClassification(2);
+            i++;
+        }
+    }
+    public void setLand()
+    {
+        int k=0;
+        for (int i=0; i < COLUMNS; i++)
+            for (int j=0; j < ROWS; j++)
+            {
+                terrain[k] = new Terrain(i,j);
+                k++;
+            }
     }
 
     /** This method initializes the board with rivers, dens, and traps
@@ -101,21 +123,69 @@ public class Board {
         /* 1- leftDen 2-rightDen 3-leftTrap 4-rightTrap 5-river*/
         setRiver();
         setDen();
+        setLand();
         setPieces(lC,rC);
         // no traps yet setTrap();
     }
-    //single print tiles and 2 if conditions for terrain and pieces
+    
+
     public void displayBoard()
     {
-        int i;
-        System.out.println("  0  |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  ");
-        System.out.println("-----+-----+-----+-----+-----+-----+-----+-----+-----");
-        for (i = 0; i < ROWS - 1; i++)
+        int i, j, k = 0;
+        int[] tempPos;
+        boolean printed;
+        System.out.println("     |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  "); // top boarder || Y
+        
+        for (i = 0; i < COLUMNS; i++)
         {
-            System.out.println("  |  " + terrain[i][0] + "  |  " + terrain[i][1] + "  |  " + terrain[i][2] + "  |  " + terrain[i][3] + "  |  " + terrain[i][4] + "  |  " + terrain[i][5] + "  |  " + terrain[i][6] + "  |  " + terrain[i][7] + "  |  " + terrain[i][8] + "  ");
-            if (i == ROWS -1)
-               System.out.println("-----+-----+-----+-----+-----+-----+-----+-----+-----"); 
+            System.out.println("-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+");
+            System.out.print("  " + (i+1) + "  |");
+            for (j = 0; j < ROWS; j++)
+            {
+                printed=false;
+                for(k=0; k < player1.length - 1; k++)
+                {
+                    if(player1[k + 1] != null)
+                    {
+                        tempPos = player1[k].getPosition();
+                        if(j== tempPos[1] && i == tempPos[0])
+                        {
+                            System.out.print(player1[k].toString());
+                            printed = true;
+                        }
+                            
+                    }
+                }
+                for(k=0; k < player2.length - 1; k++)
+                {
+                    if(player2[k + 1] != null)
+                    {
+                        tempPos = player2[k].getPosition();
+                        if(j == tempPos[1] && i == tempPos[0])
+                        {
+                            System.out.print(player2[k].toString());
+                            printed = true;
+                        }
+                            
+                    }
+                }
+                if(!printed)
+                    for(k=0; k < terrain.length -1; k++)
+                    {
+                        if(terrain[k + 1] != null)
+                        {
+                            tempPos = terrain[k].getPosition();
+                            if(j == tempPos[1] && i == tempPos[0])
+                            {
+                                System.out.print(terrain[k].toString());
+                            }   
+                        }
+                    }
+                System.out.print("|");
+            }
+            System.out.println();
         }
+        System.out.println("-----+-----+-----+-----+-----+-----+-----+-----+-----+-----+"); 
     }
     /** This method occupies the tile
 
@@ -149,7 +219,7 @@ public class Board {
 	*/
     public boolean isGameOver() //fix - should add an occupied attribute to terrain, or use trigger attribute
     {
-        if (terrain[3][0].getOccupied() || terrain[3][8].getOccupied())
+        if (terrain[0].getOccupied() || terrain[1].getOccupied())
             return true;
 
         return false;

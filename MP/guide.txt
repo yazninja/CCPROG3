@@ -33,3 +33,77 @@ Player 1(Red) [Choose an Animal to Move]:
 Choices {Tir, Er...}
 
 Choice: 
+
+COPY OF DISPLAYBOARD
+public void displayBoard()
+    {
+        int i, j, k;
+        int[] tempPos;
+        boolean printed;
+        System.out.println("     |  1  |  2  |  3  |  4  |  5  |  6  |  7  |  8  |  9  "); // top boarder || Y
+        System.out.print("-----+-----+-----+-----+-----+-----+-----+-----+-----");
+        for (i = 0; i < COLUMNS - 1; i++)
+        {
+            System.out.println();
+            System.out.print("  "+ (i+1) + "  |  "); // left boarder || X
+            for (j = 0; j < ROWS - 1; j++)
+            {
+                printed=false;
+                for(k=0; k < player1.length - 1; k++)
+                {
+                    if(player1[k + 1] != null)
+                    {
+                        tempPos = player1[k].getPosition();
+                        if(j== tempPos[1] && i == tempPos[0])
+                        System.out.print(player1[k].toString());
+                        printed = true;
+                    }
+                }
+                for(k=0; k < player2.length - 1; k++)
+                {
+                    if(player2[k + 1] != null)
+                    {
+                        tempPos = player2[k].getPosition();
+                        if(j == tempPos[1] && i == tempPos[0])
+                        System.out.print(player2[k].toString());
+                        printed = true;
+                    }
+                }
+                if(!printed)
+                    for(k=0; k < terrain.length -1; k++)
+                    {
+                        if(terrain[k + 1] != null)
+                        {
+                            tempPos = terrain[k].getPosition();
+                            if(j == tempPos[1] && i == tempPos[0])
+                            {
+                                System.out.print(terrain[k].toString());
+                            }   
+                        }
+                    }
+                
+                System.out.print("|");
+            }
+                if (i == ROWS -1)
+                    System.out.println("-----+-----+-----+-----+-----+-----+-----+-----+-----"); 
+        }
+    }
+
+
+Y
+  0   1   2   3   4   5   6   7   8
+-------------------------------------
+|0,0|0,1|0,2|0,3|0,4|0,5|0,6|0,7|0,8|  0      X
+-------------------------------------
+|1,0|1,1|1,2|1,3|1,4|1,5|1,6|1,7|1,8|  1
+-------------------------------------
+|Tr |   |Wr |Riv|Riv|Riv|Leb|   |Tb |  2
+-------------------------------------
+|ADr|Tr |   |   |   |   |   |Tb |ADb|  3            
+-------------------------------------               
+|Tr |   |Ler|Riv|Riv|Riv|   |Wb |Tb |  4
+-------------------------------------
+|   |Dr |   |Riv|Riv|Riv|   |Cb |   |  5
+-------------------------------------
+|Lir|   |Mr |   |   |   |   |Eb |Tib|  6
+-------------------------------------

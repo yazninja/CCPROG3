@@ -44,6 +44,7 @@ public class Driver {
         String color1, color2 = "";
         String temp;
         boolean valid = false;
+        Board animalChess;
         //int i;
 
         System.out.println("----ANIMAL CHESS----");
@@ -111,6 +112,9 @@ public class Driver {
         System.out.println("Player 1 has " + color1 + " pieces!");
         System.out.println("Player 2 has " + color2 + " pieces!");
         System.out.println();
+
+        animalChess = new Board(color1, color2);
+        animalChess.displayBoard();
         sc.close();
 
 

@@ -19,61 +19,45 @@ public class Pieces {
 	*/
     public Pieces(int r, String c, int pY, int pX)
     {
+        String toName="";
         switch(r)
         {
-            case 1:
-                this.NAME = "mouse";
-                break;
-            case 2:
-                this.NAME = "cat";
-                break;
-            case 3:
-                this.NAME = "wolf";
-                break;
-            case 4:
-                this.NAME = "dog";
-                break;
-            case 5:
-                this.NAME = "leopard";
-                break;
-            case 6:
-                this.NAME = "tiger";
-                break;
-            case 7:
-                this.NAME = "lion";
-                break;
-            case 8:
-                this.NAME = "elephant";
-                break;
+            case 1:     toName = "mouse";       break;
+            case 2:     toName = "cat";         break;
+            case 3:     toName = "wolf";        break;
+            case 4:     toName = "dog";         break;
+            case 5:     toName = "leopard";     break;
+            case 6:     toName = "tiger";       break;
+            case 7:     toName = "lion";        break;
+            case 8:     toName = "elephant";    break;
         }
+        NAME = toName;
         this.color = c;
         this.rank = r;
         position[0] = pY;
         position[1] = pX;
-
-
     }
     /** This method captures a piece
   
 	    @param Pokemon pikachu
 	*/
-    public boolean capture(Object Obj) 
-    {
-        Pieces enemy = (Pieces) Obj;
-        if(enemy.rank == 8 && this.rank == 1)
-        {
-            if(terrain[enemy.position[0]][enemy.position[1]].hasMouse() == true) //idk im lost pero this is not needed pa
-                return false;              //im assuming but this is supposed to be if river mouse?
-            this.position = enemy.position;
-            return true;
-        }    
-        if(enemy.rank <= this.rank)
-        {
-            this.position = enemy.position;
-            return true;
-        }
-        return false; // did not eat
-    }
+    // public boolean capture(Object Obj) 
+    // {
+    //     Pieces enemy = (Pieces) Obj;
+    //     if(enemy.rank == 8 && this.rank == 1)
+    //     {
+    //         if(terrain[enemy.position[0]][enemy.position[1]].hasMouse() == true) //idk im lost pero this is not needed pa
+    //             return false;              //im assuming but this is supposed to be if river mouse?
+    //         this.position = enemy.position;
+    //         return true;
+    //     }    
+    //     if(enemy.rank <= this.rank)
+    //     {
+    //         this.position = enemy.position;
+    //         return true;
+    //     }
+    //     return false; // did not eat
+    // }
 
     /** This method returns the current position of the piece
   
@@ -126,79 +110,79 @@ public class Pieces {
 	@param d Direction of the piece
     @return true if mouse is present, false if no mouse is present
 	*/ 
-    public boolean validateRiverMove(char d)
-    {
-        int i;
-        int[] startPos = this.getPosition();
-        switch(d)
-        {
-            case 'U':
-                for(i=1; i < 4; i++)
-                    if(Terrain[startPos[0] + i][startPos[1]].hasMouse)
-                        return false;
-                break;
-            case 'D':
-                for(i=1; i < 4; i++)
-                    if(Terrain[startPos[0] - i][startPos[1]].hasMouse)
-                        return false;
-                break;
-            case 'L':
-                for(i=1; i < 3; i++)
-                    if(Terrain[startPos[0] - i][startPos[1]].hasMouse)
-                        return false;
-                break;
-            case 'R':
-                for(i=1; i < 3; i++)
-                    if(Terrain[startPos[0] + i][startPos[1]].hasMouse)
-                        return false;
-                break;
-        }
-        return true;
-    }
+    // public boolean validateRiverMove(char d)
+    // {
+    //     int i;
+    //     int[] startPos = this.getPosition();
+    //     switch(d)
+    //     {
+    //         case 'U':
+    //             for(i=1; i < 4; i++)
+    //                 if(Terrain[startPos[0] + i][startPos[1]].hasMouse)
+    //                     return false;
+    //             break;
+    //         case 'D':
+    //             for(i=1; i < 4; i++)
+    //                 if(Terrain[startPos[0] - i][startPos[1]].hasMouse)
+    //                     return false;
+    //             break;
+    //         case 'L':
+    //             for(i=1; i < 3; i++)
+    //                 if(Terrain[startPos[0] - i][startPos[1]].hasMouse)
+    //                     return false;
+    //             break;
+    //         case 'R':
+    //             for(i=1; i < 3; i++)
+    //                 if(Terrain[startPos[0] + i][startPos[1]].hasMouse)
+    //                     return false;
+    //             break;
+    //     }
+    //     return true;
+    // }
 
     /** This method validates if move is possible
   
 	@param d Direction of the piece
     @return true if move is valid, false if move is invalid
 	*/ 
-    public boolean validateMove(char d)
-    {
-        int[] startPos = this.getPosition();
-        // check if position is occupied
-        switch(d)
-        {
-            case 'U':
-                if(this.getRank() == 1 && Terrain[startPos[0] +1][startPos[1]].getClassification == 5)    
-                    return true;
-                else if(!Board[startPos[0] +1][startPos[1]].getOccupied())
-                    return true;
-                break;
-            case 'D':
-                if(this.getRank() == 1 && Terrain[startPos[0] -1][startPos[1]].getClassification == 5)    
-                    return true;
-                else if(!Board[startPos[0] -1][startPos[1]].getOccupied())
-                    return true;
-                break;
-            case 'L':
-                if(this.getRank() == 1 && Terrain[startPos[0]][startPos[1] -1].getClassification == 5)    
-                    return true;
-                else if(!Board[startPos[0]][startPos[1] -1].getOccupied())
-                    return true;
-                break;
-            case 'R':
-                if(this.getRank() == 1 && Terrain[startPos[0]][startPos[1] +1].getClassification == 5)    
-                    return true;
-                else if(!Board[startPos[0]][startPos[1] +1].getOccupied())
-                    return true;
-                break;
-        }
-        // special check for mouse in river
-        if(this.getRank() == 6 || this.getRank() == 7)
-            if(this.validateRiverMove(d));
-                return true;
+    // public boolean validateMove(char d)
+    // {
+    //     int[] startPos = this.getPosition();
+    //     // check if position is occupied
+    //     switch(d)
+    //     {
+    //         case 'U':
+    //             if(this.getRank() == 1 && Terrain[startPos[0] +1][startPos[1]].getClassification == 5)    
+    //                 return true;
+    //             else if(!Board[startPos[0] +1][startPos[1]].getOccupied())
+    //                 return true;
+    //             break;
+    //         case 'D':
+    //             if(this.getRank() == 1 && Terrain[startPos[0] -1][startPos[1]].getClassification == 5)    
+    //                 return true;
+    //             else if(!Board[startPos[0] -1][startPos[1]].getOccupied())
+    //                 return true;
+    //             break;
+    //         case 'L':
+    //             if(this.getRank() == 1 && Terrain[startPos[0]][startPos[1] -1].getClassification == 5)    
+    //                 return true;
+    //             else if(!Board[startPos[0]][startPos[1] -1].getOccupied())
+    //                 return true;
+    //             break;
+    //         case 'R':
+    //             if(this.getRank() == 1 && Terrain[startPos[0]][startPos[1] +1].getClassification == 5)    
+    //                 return true;
+    //             else if(!Board[startPos[0]][startPos[1] +1].getOccupied())
+    //                 return true;
+    //             break;
+    //     }
+    //     // special check for mouse in river
+    //     if(this.getRank() == 6 || this.getRank() == 7)
+    //         if(this.validateRiverMove(d));
+    //             return true;
 
-        return false;
-    }
+    //     return false;
+    // }
 
 	/** This method validates if move is possible
   
@@ -226,19 +210,19 @@ public class Pieces {
         String toReturn="";
         switch(this.rank)
         {
-            case 1: toReturn = "M";     break;
-            case 2: toReturn = "C";     break;
-            case 3: toReturn = "W";     break;
-            case 4: toReturn = "D";     break;
-            case 5: toReturn = "Le";    break;
-            case 6: toReturn = "T";     break;
-            case 7: toReturn = "Li";    break;
-            case 8: toReturn = "E";     break;
+            case 1: toReturn = "Mo";   break;
+            case 2: toReturn = "Ca";   break;
+            case 3: toReturn = "Wo";   break;
+            case 4: toReturn = "Do";   break;
+            case 5: toReturn = "Le";   break;
+            case 6: toReturn = "Ti";   break;
+            case 7: toReturn = "Li";   break;
+            case 8: toReturn = "El";   break;
         }
         switch(this.color)
         {
-            case "red":     toReturn = toReturn + "r";  break;
-            case "blue":    toReturn = toReturn + "b";  break;
+            case "red":     toReturn = toReturn + "r  ";  break;
+            case "blue":    toReturn = toReturn + "b  ";  break;
         }
         return toReturn;
     }

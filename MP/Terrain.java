@@ -17,9 +17,17 @@ public class Terrain {
         @param x X coordinate from board
         @param y Y coordinate from board
 	*/
-    public Terrain(int c, int x, int y)
+    public Terrain(int c, int y, int x) 
     {
         this.classification = c;
+        position = new int[2];
+        this.position[0] = y;
+        this.position[1] = x;
+    }
+
+    public Terrain(int y, int x) 
+    {
+        this.classification = 0;
         position = new int[2];
         this.position[0] = y;
         this.position[1] = x;
@@ -32,6 +40,11 @@ public class Terrain {
     public int getClassification()
     {
         return classification;
+    }
+
+    public void setClassification(int c)
+    {
+        classification = c;
     }
     
     /** This method gets the classification of the terrain
@@ -66,11 +79,12 @@ public class Terrain {
         String toReturn="";
         switch(this.classification)
         {
-            case 1: toReturn = "AD1";    break;
-            case 2: toReturn = "AD2";    break;
-            case 3: toReturn = "TR1";    break;
-            case 4: toReturn = "TR2";    break;
-            case 5: toReturn = "RIV";    break;
+            case 0: toReturn = "     ";   break;
+            case 1: toReturn = "AD1  ";   break;
+            case 2: toReturn = "AD2  ";   break;
+            case 3: toReturn = "TR1  ";   break;
+            case 4: toReturn = "TR2  ";   break;
+            case 5: toReturn = "RIV  ";   break;
         }
         return toReturn;
     }
